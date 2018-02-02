@@ -1,14 +1,17 @@
 require 'test_helper'
 
 class Resolvers::CreateLinkTest < ActiveSupport::TestCase
-  def perform(args = {})
-    Resolvers::CreateLink.new.call(nil, args, {})
+  def perform(user: nil, **args)
+    Resolvers::CreateLink.new.call(nil, args, current_user: user)
   end
 
   test 'creating new link' do
+    user = User.create(name: "Hai Thair", email: "hai@example.com")
+
     link = perform(
       url: 'http://example.com',
       description: 'a website',
+      user: user,
     )
 
     assert link.persisted?
