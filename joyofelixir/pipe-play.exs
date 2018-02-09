@@ -1,3 +1,13 @@
+day_to_num = fn
+  "Monday" -> 1
+  "Tuesday" -> 2
+  "Wednesday" -> 3
+  "Thursday" -> 4
+  "Friday" -> 5
+  "Saturday" -> 6
+  "Sunday" -> 7
+end
+
 %{
   "Monday" => 28,
   "Tuesday" => 29,
@@ -8,5 +18,5 @@
   "Sunday" => 20
 }
 |> Enum.map(fn ({day, temp}) -> {day, temp * 1.8 + 32} end)
-|> Enum.into(%{})
+|> Enum.sort_by(fn ({day, temp}) -> day_to_num.(day) end)
 |> IO.inspect
