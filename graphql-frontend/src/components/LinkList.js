@@ -3,7 +3,7 @@ import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import Link from './Link'
 
-const Links = feedQuery => {
+let LinkList = ({feedQuery}) => {
   if (feedQuery && feedQuery.loading) {
     return <div>Loading</div>
   }
@@ -15,15 +15,6 @@ const Links = feedQuery => {
   const linksToRender = feedQuery.feed.links
 
   return linksToRender.map(link => <Link key={link.id} link={link} />)
-}
-
-let LinkList = ({feedQuery}) => {
-  return (
-    <React.Fragment>
-      <h1>Links</h1>
-      {Links(feedQuery)}
-    </React.Fragment>
-  )
 }
 
 const FEED_QUERY = gql`
