@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { timeDifferenceForDate } from '../utils'
+import { graphql } from 'react-apollo'
+import gql from 'graphql-tag'
 import { AUTH_TOKEN } from '../constants'
 
 class Link extends Component {
@@ -10,9 +12,9 @@ class Link extends Component {
         <div className="flex items-center">
           <span className="gray">{this.props.index + 1}.</span>
           {authToken && (
-            <div className="ml1 gray f11" onClick={() => this._voteForLink()}>
+            <button className="ml1 gray f11" onClick={() => this._voteForLink()}>
               ▲
-            </div>
+            </button>
           )}
         </div>
         <div className="ml1">
@@ -32,8 +34,37 @@ class Link extends Component {
   }
 
   _voteForLink = async () => {
-    // ... you'll implement this in chapter 6
+    const linkId = this.props.link.id
+    await this.props.voteMutation({
+      variables: {
+        linkId,
+      },
+      update: (store, { data: { vote } }) => {
+        this.props.updateStoreAfterVote(store, vote, linkId)
+      }
+    })
   }
 }
 
-export default Link
+const VOTE_MUTATION = gql`
+  mutation VoteMutation($linkId: ID!) {
+    vote(linkId: $linkId) {
+      id
+      link {
+        votes {
+          id
+          user {
+            id
+          }
+        }
+      }
+      user {
+        id
+      }
+    }
+  }
+`
+
+export default graphql(VOTE_MUTATION, {
+  name: 'voteMutation',
+})(Link)

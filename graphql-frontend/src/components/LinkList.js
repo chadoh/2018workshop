@@ -3,6 +3,15 @@ import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 import Link from './Link'
 
+const updateCacheAfterVote = (store, createdVote, linkId) => {
+  const data = store.readQuery({ query: FEED_QUERY })
+
+  const votedLink = data.feed.links.find(link => link.id === linkId)
+  votedLink.votes = createdVote.link.votes
+
+  store.writeQuery({ query: FEED_QUERY, data })
+}
+
 let LinkList = ({feedQuery}) => {
   if (feedQuery && feedQuery.loading) {
     return <div>Loading</div>
@@ -15,7 +24,12 @@ let LinkList = ({feedQuery}) => {
   const linksToRender = feedQuery.feed.links
 
   return linksToRender.map((link, index) => (
-    <Link key={link.id} link={link} index={index} />
+    <Link
+      key={link.id}
+      link={link}
+      index={index}
+      updateStoreAfterVote={updateCacheAfterVote}
+    />
   ))
 }
 
