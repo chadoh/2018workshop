@@ -14,10 +14,12 @@ let LinkList = ({feedQuery}) => {
 
   const linksToRender = feedQuery.feed.links
 
-  return linksToRender.map(link => <Link key={link.id} link={link} />)
+  return linksToRender.map((link, index) => (
+    <Link key={link.id} link={link} index={index} />
+  ))
 }
 
-const FEED_QUERY = gql`
+export const FEED_QUERY = gql`
   query FeedQuery {
     feed {
       links {
@@ -25,6 +27,16 @@ const FEED_QUERY = gql`
         createdAt
         url
         description
+        postedBy {
+          id
+          name
+        }
+        votes {
+          id
+          user {
+            id
+          }
+        }
       }
     }
   }
