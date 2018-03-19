@@ -1,13 +1,18 @@
-last_name_first = fn user ->
-  with {:ok, first} <- Map.fetch(user, :first),
-       {:ok, last} <- Map.fetch(user, :last),
-    do: last <> ", " <> first
-end
+import Integer
 
-[
-  %{ first: "Chad", last: "Ostrowski" },
-  %{ first: "Lisa", last: "Yoder" },
-  %{ first: "No Last" },
-]
-|> Enum.map(last_name_first)
-|> IO.inspect
+m = %{a: 1, c: 3}
+
+a =
+  with {:ok, number} <- Map.fetch(m, :a),
+    true <- is_even(number) do
+      IO.puts "#{number} divided by 2 is #{div(number, 2)}"
+      :even
+  else
+    :error ->
+      IO.puts("We don't have this item in map")
+      :error
+
+    _ ->
+      IO.puts("It is odd")
+      :odd
+  end
