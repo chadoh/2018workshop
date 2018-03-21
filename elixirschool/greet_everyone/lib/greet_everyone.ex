@@ -23,4 +23,11 @@ defmodule GreetEveryone do
   def hello(name) do
     "Hello, " <> name
   end
+
+  @doc """
+  Outputs `Hello, World!` to `STDOUT`
+  """
+  def say do
+    IO.puts("Hello, World!")
+  end
 end
