@@ -1,0 +1,3 @@
+Student name,Timestamp,Score,Weighted,Letter,"Aspect one, 40%",aspect one notes,"Aspect two, 60%",aspect two notes
+Student One,3/18/2018 12:04:40,85,100,A,4,"Amazing!",4,"Wow!"
+Student Two,3/18/2018 9:57:54,5,20,F,0,"didn't work",0,"oh no"
