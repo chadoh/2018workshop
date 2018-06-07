@@ -1,6 +1,6 @@
 import Player from "./player"
 
-let Video = {
+const Video = {
 
   init(socket, element){ if(!element){ return }
     let playerId = element.getAttribute("data-player-id")
@@ -12,11 +12,14 @@ let Video = {
   },
 
   onReady(videoId, socket){
-    let msgContainer = document.getElementById("msg-container")
-    let msgInput     = document.getElementById("msg-input")
-    let postButton   = document.getElementById("msg-submit")
-    let vidChannel   = socket.channel("videos:" + videoId)
-    // TODO join the vidChannel
+    const msgContainer = document.getElementById("msg-container")
+    const msgInput     = document.getElementById("msg-input")
+    const postButton   = document.getElementById("msg-submit")
+    const vidChannel   = socket.channel("videos:" + videoId)
+
+    vidChannel.join()
+      .receive("ok", resp => console.log("joined the video channel", resp))
+      .receive("error", reason => console.log("join failed", reason))
   }
 }
 export default Video
